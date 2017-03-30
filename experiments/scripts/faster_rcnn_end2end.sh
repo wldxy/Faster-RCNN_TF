@@ -16,10 +16,11 @@ DEV=$1
 DEV_ID=$2
 NET=$3
 DATASET=$4
+ITERS=$5
 
 array=( $@ )
 len=${#array[@]}
-EXTRA_ARGS=${array[@]:4:$len}
+EXTRA_ARGS=${array[@]:5:$len}
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
 
 case $DATASET in
@@ -42,7 +43,6 @@ case $DATASET in
     TRAIN_IMDB="my_data_train"
     TEST_IMDB="my_data_test"
     PT_DIR="my_data"
-    ITERS=2
     ;;
   *)
     echo "No dataset given"
