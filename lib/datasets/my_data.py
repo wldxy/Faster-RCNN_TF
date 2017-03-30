@@ -233,8 +233,6 @@ class my_data(imdb):
         path = os.path.join(
             self._devkit_path,
             'results',
-            'my_data',
-            'Main',
             filename)
         return path
 
