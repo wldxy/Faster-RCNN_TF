@@ -13,6 +13,7 @@ import datasets.pascal_voc
 import datasets.imagenet3d
 import datasets.kitti
 import datasets.kitti_tracking
+import datasets.my_data
 import numpy as np
 
 def _selective_search_IJCV_top_k(split, year, top_k):
@@ -67,6 +68,11 @@ for year in ['2015']:
     for split in ['test', 'test-dev']:
         name = 'coco_{}_{}'.format(year, split)
         __sets[name] = (lambda split=split, year=year: coco(split, year))
+
+for split in ['train', 'val', 'trainval', 'test']:
+    name = 'my_data_{}'.format(split)
+    print name
+    __sets[name] = (lambda split=split: datasets.my_data.my_data(split))
 
 # NTHU dataset
 for split in ['71', '370']:

@@ -9,7 +9,8 @@ import numpy as np
 import os, sys, cv2
 import argparse
 from networks.factory import get_network
-
+from tensorflow.python.framework import graph_util
+from tensorflow.python.platform import gfile
 
 CLASSES = ('__background__',
            'aeroplane', 'bicycle', 'bird', 'boat',
@@ -115,24 +116,33 @@ if __name__ == '__main__':
     # load model
     saver = tf.train.Saver(write_version=tf.train.SaverDef.V1)
     saver.restore(sess, args.model)
-   
-    #sess.run(tf.initialize_all_variables())
 
-    print '\n\nLoaded network {:s}'.format(args.model)
+    # op = sess.graph.get_operations()
+    # # [m.values() for m in op]
+    # for m in op:
+    #     print m.values()
+    output = graph_util.convert_variables_to_constants(sess, sess.graph.as_graph_def(), 
+        ['cls_prob', 'cls_score/cls_score', 'bbox_pred/bbox_pred', 'rois'])
+    with gfile.FastGFile("output.pb", "wb") as f:
+        f.write(output.SerializeToString())
 
-    # Warmup on a dummy image
-    im = 128 * np.ones((300, 300, 3), dtype=np.uint8)
-    for i in xrange(2):
-        _, _= im_detect(sess, net, im)
+    # #sess.run(tf.initialize_all_variables())
 
-    im_names = ['000456.jpg', '000542.jpg', '001150.jpg',
-                '001763.jpg', '004545.jpg']
+    # print '\n\nLoaded network {:s}'.format(args.model)
+
+    # # Warmup on a dummy image
+    # im = 128 * np.ones((300, 300, 3), dtype=np.uint8)
+    # for i in xrange(2):
+    #     _, _= im_detect(sess, net, im)
+
+    # im_names = ['000456.jpg', '000542.jpg', '001150.jpg',
+    #             '001763.jpg', '004545.jpg']
 
 
-    for im_name in im_names:
-        print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-        print 'Demo for data/demo/{}'.format(im_name)
-        demo(sess, net, im_name)
+    # for im_name in im_names:
+    #     print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+    #     print 'Demo for data/demo/{}'.format(im_name)
+    #     demo(sess, net, im_name)
 
-    plt.show()
+    # plt.show()
 

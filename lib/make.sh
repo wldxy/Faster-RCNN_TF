@@ -22,6 +22,9 @@ else
 		-I $TF_INC -fPIC $CXXFLAGS
 fi
 
+# g++ -std=c++11 -shared -D_GLIBCXX_USE_CXX11_ABI=0 -o roi_pooling.so roi_pooling_op.cc \
+# 	-I $TF_INC -fPIC $CXXFLAGS
+
 cd ..
 
 #cd feature_extrapolating_layer
