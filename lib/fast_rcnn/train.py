@@ -178,7 +178,7 @@ class SolverWrapper(object):
                                                                                                 run_metadata=run_metadata)
 
             timer.toc()
-
+            # print "============================================"
             if cfg.TRAIN.DEBUG_TIMELINE:
                 trace = timeline.Timeline(step_stats=run_metadata.step_stats)
                 trace_file = open(str(long(time.time() * 1000)) + '-train-timeline.ctf.json', 'w')

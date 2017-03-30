@@ -3,10 +3,10 @@
 *.o
 faster_rcnn_models
 model/
-.gitignore
 output/
 tags
 tools/
 data/pretrain_model/
 data/VOCdevkit2007
 data/cache/
+get_my_data/my_data/

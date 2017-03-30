@@ -16,7 +16,7 @@ import pdb
 
 class my_data(imdb):
     def __init__(self, image_set, devkit_path=None):
-        imdb.__init__(self, 'my_data' + image_set)
+        imdb.__init__(self, 'my_data_' + image_set)
         self._image_set = image_set
         self._devkit_path = self._get_default_path() if devkit_path is None \
                             else devkit_path
@@ -197,12 +197,19 @@ class my_data(imdb):
         for ix, obj in enumerate(objs):
             bbox = obj.find('bndbox')
             # Make pixel indexes 0-based
-            x1 = float(bbox.find('xmin').text) - 1
-            y1 = float(bbox.find('ymin').text) - 1
-            x2 = float(bbox.find('xmax').text) - 1
-            y2 = float(bbox.find('ymax').text) - 1
+            # x1 = float(bbox.find('xmin').text) - 1
+            # y1 = float(bbox.find('ymin').text) - 1
+            # x2 = float(bbox.find('xmax').text) - 1
+            # y2 = float(bbox.find('ymax').text) - 1
+            x1 = float(bbox.find('xmin').text)
+            y1 = float(bbox.find('ymin').text)
+            x2 = float(bbox.find('xmax').text)
+            y2 = float(bbox.find('ymax').text)
             cls = self._class_to_ind[obj.find('name').text.lower().strip()]
             boxes[ix, :] = [x1, y1, x2, y2]
+            # print boxes[ix, :]
+            # print [x1, y1, x2, y2]
+            # print "=============="
             gt_classes[ix] = cls
             overlaps[ix, cls] = 1.0
             seg_areas[ix] = (x2 - x1 + 1) * (y2 - y1 + 1)
